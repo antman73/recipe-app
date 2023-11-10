@@ -1,9 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
+<div class="header d-flex p-2 align-content-center">
+    <span class="brand-logo">Recipe Maker</span>
+</div>
 <div class="page">
     <main>
         <article class="content px-4">
             @Body
         </article>
     </main>
+</div>
+
+<div class="footer d-flex p-2 align-content-center">
+    <div>Recipe Maker &copy; @DateTime.Today.Year</div>
 </div>

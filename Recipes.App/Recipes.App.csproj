@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Recipes.Shared\Recipes.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>
