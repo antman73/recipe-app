@@ -1,10 +1,13 @@
-﻿using Recipes.Shared.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using Recipes.Shared.Domain;
 
 namespace Recipes.Api.Models
 {
     public interface IRecipeRepository
     {
-        IEnumerable<Recipe> GetAllRecipes();
+        Task<IEnumerable<Recipe>> GetAllRecipes();
+        Task<bool> CreateRecipe(Recipe recipe);
+        Task<Recipe?> GetRecipe(int id);
     }
 
     public class RecipeRepository : IRecipeRepository
@@ -16,9 +19,27 @@ namespace Recipes.Api.Models
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Recipe> GetAllRecipes()
+        public async Task<IEnumerable<Recipe>> GetAllRecipes()
         {
-            return _appDbContext.Recipes.OrderBy(x => x.Description);
+            try
+            {
+                return await _appDbContext.Recipes.OrderBy(x => x.Description).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<bool> CreateRecipe(Recipe recipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Recipe?> GetRecipe(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

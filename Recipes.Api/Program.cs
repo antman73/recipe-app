@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RecipeDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration["ConnectionStrings:DefaultConnection"]);
+        builder.Configuration.GetConnectionString("RecipeDatabase"));
 });
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();

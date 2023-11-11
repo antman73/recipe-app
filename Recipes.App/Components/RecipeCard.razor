@@ -1,0 +1,46 @@
+﻿@using Recipes.Shared.Domain
+
+@if (Recipe != null)
+{
+    <div class="recipe-card d-flex flex-column gap-2" role="button">
+        <div class="h4 text-center">@Recipe.Title</div>
+        <img src="@_imageUrl" alt="Recipe Image"/>
+        <div class="d-flex gap-1">
+            <div class="fw-bold">Prep time (mins):</div>
+            <div>@Recipe.PrepTimeMinutes</div>
+        </div>
+        <div class="d-flex gap-1">
+            <div class="fw-bold">Cook time (mins):</div>
+            <div>@Recipe.CookTimeMinutes</div>
+        </div>
+        <div class="d-flex gap-1">
+            <div class="fw-bold">Servings:</div>
+            <div>@Recipe.Servings</div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter] public Recipe? Recipe { get; set; }
+
+    private string? _imageUrl;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Recipe is not null)
+        {
+            await LoadData();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        if (Recipe is { Image: not null })
+        {
+            _imageUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(Recipe.Image)}";
+        }
+
+    }
+
+}

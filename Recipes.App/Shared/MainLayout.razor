@@ -1,16 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="header d-flex p-2 align-content-center">
-    <span class="brand-logo">Recipe Maker</span>
+<div class="header d-flex p-2 align-items-center justify-content-between">
+    <a href="https://risk.lexisnexis.com/" class="navbar-brand"> </a>
+    <span class="brand-logo">Recipe Master</span>
+    <div></div>
 </div>
 <div class="page">
-    <main>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    @Body
 </div>
 
-<div class="footer d-flex p-2 align-content-center">
-    <div>Recipe Maker &copy; @DateTime.Today.Year</div>
+<div class="footer d-flex align-items-center justify-content-end">
+    <div>Recipe Master &copy; LexisNexis @DateTime.Today.Year</div>
 </div>

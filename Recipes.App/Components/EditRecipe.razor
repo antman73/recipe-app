@@ -1,0 +1,38 @@
+﻿<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addRecipeModal">Add New Recipe</button>
+
+<div class="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRecipeModalLabel">Add New Recipe</h5>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="newTitle" class="form-label">Title:</label>
+                    <input class="form-control" id="newTitle" @bind="_recipe.Title">
+                </div>
+                <div class="mb-3">
+                    <label for="newDescription" class="form-label">Description:</label>
+                    <textarea rows="4" class="form-control" id="newDescription" height="100px" @bind="_recipe.Description">
+                    </textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="newCookTimeMinutes" class="form-label">Cook Time (mins):</label>
+                    <input type="number" class="form-control" id="newCookTimeMinutes" @bind="_recipe.CookTimeMinutes">
+                </div>
+                <div class="mb-3">
+                    <label for="newPrepTimeMinutes" class="form-label">Prep Time (mins):</label>
+                    <input type="number" class="form-control" id="newPrepTimeMinutes" @bind="_recipe.PrepTimeMinutes">
+                </div>
+                <div class="mb-3">
+                    <label for="newServings" class="form-label">Servings:</label>
+                    <input type="number" class="form-control" id="newServings" @bind="_recipe.Servings">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="SaveRecipe">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

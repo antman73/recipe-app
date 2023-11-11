@@ -11,8 +11,8 @@ using Recipes.Api.Models;
 namespace Recipes.Api.Migrations
 {
     [DbContext(typeof(RecipeDbContext))]
-    [Migration("20231110223828_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231111161707_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,14 +84,22 @@ namespace Recipes.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CookTimeMinutes")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("PrepTimeMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Servings")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

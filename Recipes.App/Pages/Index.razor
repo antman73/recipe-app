@@ -1,5 +1,25 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<div class="m-2">
+    <AddRecipe />
+</div>
 
-HOME PAGE
+@if (_recipeList == null)
+{
+    <div>Loading recipes...</div>
+}
+else if (_recipeList?.Count == 0)
+{
+    <div>No recipes found!</div>
+}
+else
+{
+    <div class="w-100 d-flex justify-content-center">
+        <div class="d-flex flex-wrap gap-4">
+            @foreach (var recipe in _recipeList!)
+            {
+                <RecipeCard Recipe="recipe"/>
+            }
+        </div>
+    </div>
+}
