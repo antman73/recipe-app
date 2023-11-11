@@ -1,37 +1,102 @@
-﻿<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addRecipeModal">Add New Recipe</button>
+﻿<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addRecipeModal">@($"{(Id > 0 ? "Edit " : "Add New ")}Recipe")</button>
 
 <div class="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addRecipeModalLabel">Add New Recipe</h5>
             </div>
             <div class="modal-body">
-                <div class="mb-3">
-                    <label for="newTitle" class="form-label">Title:</label>
-                    <input class="form-control" id="newTitle" @bind="_recipe.Title">
-                </div>
-                <div class="mb-3">
-                    <label for="newDescription" class="form-label">Description:</label>
-                    <textarea rows="4" class="form-control" id="newDescription" height="100px" @bind="_recipe.Description">
-                    </textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="newCookTimeMinutes" class="form-label">Cook Time (mins):</label>
-                    <input type="number" class="form-control" id="newCookTimeMinutes" @bind="_recipe.CookTimeMinutes">
-                </div>
-                <div class="mb-3">
-                    <label for="newPrepTimeMinutes" class="form-label">Prep Time (mins):</label>
-                    <input type="number" class="form-control" id="newPrepTimeMinutes" @bind="_recipe.PrepTimeMinutes">
-                </div>
-                <div class="mb-3">
-                    <label for="newServings" class="form-label">Servings:</label>
-                    <input type="number" class="form-control" id="newServings" @bind="_recipe.Servings">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="SaveRecipe">Save changes</button>
+                <EditForm Model="@_recipe" OnValidSubmit="@SaveRecipe">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <table class="edit-recipe">
+                        <tr>
+                            <th class="required">Title:</th>
+                            <td colspan="5"><input class="form-control" @bind="_recipe.Title"></td>
+                        </tr>
+                        <tr>
+                            <th class="required">Description:</th>
+                            <td colspan="5"><textarea class="form-control" rows="4" @bind="_recipe.Description"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th class="required text-nowrap">Prep Time:</th>
+                            <td><input class="form-control w-50" @bind="_recipe.PrepTimeMinutes"></td>
+                            <th class="required text-nowrap">Cook Time:</th>
+                            <td><input class="form-control w-50" @bind="_recipe.CookTimeMinutes"></td>
+                            <th class="required text-nowrap">Servings:</th>
+                            <td><input class="form-control w-50" @bind="_recipe.Servings"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <div class="fw-bold mt-2">Ingredients</div>
+                                @if (_recipe.Ingredients != null)
+                                {
+                                    @if (_recipe.Ingredients.Count == 0)
+                                    {
+                                        <div>No Ingredients found!</div>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var i in _recipe.Ingredients)
+                                        {
+                                            var ingredient = i;
+                                            <div class="d-flex gap-1">
+                                                <input class="form-control" @bind="@ingredient.IngredientText" />
+                                                <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
+                                                @onclick=@(() => RemoveIngredient(ingredient))></iconify-icon>
+                                            </div>
+                                        }
+                                    }
+
+                                }
+                                <div class="d-flex gap-1">
+                                    <input class="form-control" @bind="@_newIngredient.IngredientText"/>
+                                    <iconify-icon icon="ph:plus-circle-duotone" style="color: green;" Width="32" Height="32"
+                                                  @onclick="AddIngredient" role="button"></iconify-icon>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <div>Instructions</div>
+                                @if (_recipe.Instructions != null)
+                                {
+                                    @if (_recipe.Instructions.Count == 0)
+                                    {
+                                        <div>No Instructions found!</div>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var i in _recipe.Instructions)
+                                        {
+                                            var instruction = i;
+                                            <div class="d-flex gap-1">
+                                                <input class="form-control" @bind="@instruction.InstructionText" />
+                                                <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
+                                                @onclick=@(() => RemoveInstruction(instruction))></iconify-icon>
+                                            </div>
+                                        }
+                                    }
+
+                                }
+                                <div class="d-flex gap-1">
+                                    <input class="form-control" @bind="@_newInstruction.InstructionText" />
+                                    <iconify-icon icon="ph:plus-circle-duotone" style="color: green;" Width="32" Height="32"
+                                    @onclick="AddInstruction" role="button"></iconify-icon>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <div class="d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-md btn-success">Save</button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#addRecipeModal" class="btn btn-md btn-secondary">Cancel</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </EditForm>
             </div>
         </div>
     </div>

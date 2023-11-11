@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 <div class="m-2">
-    <AddRecipe />
+    <EditRecipe />
 </div>
 
 @if (_recipeList == null)
@@ -18,7 +18,7 @@ else
         <div class="d-flex flex-wrap gap-4">
             @foreach (var recipe in _recipeList!)
             {
-                <RecipeCard Recipe="recipe"/>
+                <RecipeCard Recipe="recipe" />
             }
         </div>
     </div>

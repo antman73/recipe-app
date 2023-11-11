@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Recipes.App.Services;
 using Recipes.Shared.Domain;
 
@@ -6,24 +7,47 @@ namespace Recipes.App.Components;
 
 public partial class EditRecipe
 {
-    [Parameter] public int? Id { get; set; }
-
     [Inject] private IRecipeDataService RecipeDataService { get; set; } = null!;
 
+    [Parameter] public int? Id { get; set; }
+
+    [Parameter] public EventCallback<Recipe> RecipeSaved { get; set; }
+
     private Recipe _recipe = new();
+    private Ingredient _newIngredient = new();
+    private Instruction _newInstruction = new();
 
     protected override async Task OnParametersSetAsync()
     {
-        if ((Id ?? 0) > 0) await LoadRecipe(Id!.Value);
+        _recipe = (Id ?? 0) > 0
+            ? await RecipeDataService.GetRecipe(Id!.Value)
+            : new Recipe { Ingredients = new List<Ingredient>(), Instructions = new List<Instruction>() };
     }
 
-    private async Task LoadRecipe(int id)
+    private void AddIngredient()
     {
-        _recipe = await RecipeDataService.GetRecipe(id);
+        _recipe.Ingredients?.Add(_newIngredient);
+        _newIngredient = new Ingredient();
     }
 
-    private Task SaveRecipe()
+    private void RemoveIngredient(Ingredient ingredient)
     {
-        throw new NotImplementedException();
+        _recipe.Ingredients?.Remove(ingredient);
+    }
+
+    private void AddInstruction()
+    {
+        _recipe.Instructions?.Add(_newInstruction);
+        _newInstruction = new Instruction();
+    }
+
+    private void RemoveInstruction(Instruction instruction)
+    {
+        _recipe.Instructions?.Remove(instruction);
+    }
+
+    private async Task SaveRecipe()
+    {
+        await RecipeSaved.InvokeAsync();
     }
 }
