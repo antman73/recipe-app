@@ -1,0 +1,85 @@
+﻿@if (_recipe != null)
+{
+    <EditForm Model="@_recipe" OnValidSubmit="@SaveRecipe">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col-2 required fw-bold">Title:</div>
+            <div class="col-10">
+                <input class="form-control" @bind="_recipe.Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2 required fw-bold">Description:</div>
+            <div class="col-10">
+                <textarea class="form-control" rows="4" @bind="_recipe.Description"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2 required fw-bold">Prep Time:</div>
+            <div class="col-10">
+                <div class="d-flex gap-2">
+                    <div><input class="form-control w-50" @bind="_recipe.PrepTimeMinutes"></div>
+                    <div class=" equired fw-bold">Cook Time:</div>
+                    <div><input class="form-control w-50" @bind="_recipe.CookTimeMinutes"></div>
+                    <div class=" equired fw-bold">Servings:</div>
+                    <div><input class="form-control w-50" @bind="_recipe.Servings"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="fw-bold mt-2">Ingredients</div>
+                @if (_recipe.Ingredients.Count == 0)
+                {
+                    <div>No Ingredients found!</div>
+                }
+                else
+                {
+                    @foreach (var i in _recipe.Ingredients)
+                    {
+                        var ingredient = i;
+                        <div class="d-flex gap-1">
+                            <input class="form-control" @bind="@ingredient.IngredientText" />
+                            <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
+                                          @onclick=@(() => RemoveIngredient(ingredient))></iconify-icon>
+                        </div>
+                    }
+                }
+                <div class="d-flex gap-1">
+                    <input class="form-control" @bind="@_newIngredient.IngredientText" />
+                    <iconify-icon icon="ph:plus-circle-duotone" style="color: green;" Width="32" Height="32"
+                                  @onclick="AddIngredient" role="button"></iconify-icon>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="fw-bold">Instructions</div>
+                @if (_recipe.Instructions.Count == 0)
+                {
+                    <div>No Instructions found!</div>
+                }
+                else
+                {
+                    @foreach (var i in _recipe.Instructions)
+                    {
+                        var instruction = i;
+                        <div class="d-flex gap-1">
+                            <input class="form-control" @bind="@instruction.InstructionText" />
+                            <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
+                                          @onclick=@(() => RemoveInstruction(instruction))></iconify-icon>
+                        </div>
+                    }
+                }
+                <div class="d-flex gap-1">
+                    <input class="form-control" @bind="@_newInstruction.InstructionText" />
+                    <iconify-icon icon="ph:plus-circle-duotone" style="color: green;" Width="32" Height="32"
+                                  @onclick="AddInstruction" role="button"></iconify-icon>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-md btn-success">Save</button>
+            <button type="button" class="btn btn-md btn-secondary" @onclick=@(() => BlazoredModal.CloseAsync(ModalResult.Ok(true)))>Cancel</button>
+        </div>
+    </EditForm>
+}

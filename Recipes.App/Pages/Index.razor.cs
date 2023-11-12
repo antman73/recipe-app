@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Recipes.App.Components;
 using Recipes.App.Services;
 using Recipes.Shared.Domain;
@@ -8,9 +11,10 @@ namespace Recipes.App.Pages;
 public partial class Index
 {
     [Inject] private IRecipeDataService RecipeDataService { get; set; } = null!;
+    [Inject] private IModalService ModalService { get; set; } = null!;
+    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
 
     private List<Recipe>? _recipeList;
-    public Recipe AddRecipeModal { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -22,8 +26,20 @@ public partial class Index
         _recipeList = (await RecipeDataService.GetAllRecipes()).ToList();
     }
 
-    private async Task AddNewRecipe()
+    private async Task EditRecipe(Recipe recipe)
     {
-        throw new NotImplementedException();
+        var editViewRecipe =  ModalService.Show<EditViewRecipe>("View/Edit Recipe", 
+            new ModalParameters().Add("RecipeId", recipe.Id), 
+            new ModalOptions
+        {
+            Size = ModalSize.Large
+        });
+        var result = await editViewRecipe.Result;
+        if (result.Confirmed && (bool?)result.Data == false)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "Recipe not saved!"); 
+        }
+
+        await LoadData();
     }
 }

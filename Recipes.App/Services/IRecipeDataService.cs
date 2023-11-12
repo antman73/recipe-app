@@ -10,6 +10,7 @@ namespace Recipes.App.Services
         public Task<IEnumerable<Recipe>> GetAllRecipes();
 
         public Task<Recipe> GetRecipe(int id);
+        public Task<bool> SaveRecipe(Recipe recipe);
     }
 
     public class RecipeDataService : IRecipeDataService
@@ -24,26 +25,23 @@ namespace Recipes.App.Services
         public async Task<IEnumerable<Recipe>> GetAllRecipes()
         {
             var result = await _httpClient.GetAsync("api/recipes");
-            if(result.IsSuccessStatusCode) 
-                return await result.Content.ReadFromJsonAsync<IEnumerable<Recipe>>() ?? new List<Recipe>();
-            return new List<Recipe>();
+            if(!result.IsSuccessStatusCode) return new List<Recipe>();
+            return await result.Content.ReadFromJsonAsync<IEnumerable<Recipe>>() ?? new List<Recipe>();
         }
 
         public async Task<Recipe> GetRecipe(int id)
         {
-            var result = await _httpClient.GetAsync($"api/recipe/{id}");
-            if(result.IsSuccessStatusCode)
-                return await result.Content.ReadFromJsonAsync<Recipe>() ?? new Recipe();
-            return new Recipe();
+            var result = await _httpClient.GetAsync($"api/recipes/{id}");
+            if (!result.IsSuccessStatusCode) return new Recipe();
+            return await result.Content.ReadFromJsonAsync<Recipe>() ?? new Recipe();
         }
 
-        public async Task<bool> CreateRecipe(Recipe recipe)
+        public async Task<bool> SaveRecipe(Recipe recipe)
         {
-            var result = await _httpClient.PostAsync("api/recipe",
+            var result = await _httpClient.PostAsync("api/recipes",
                 new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));
-            if (result.IsSuccessStatusCode)
-                return await result.Content.ReadFromJsonAsync<bool>();
-            return false;
+            if (!result.IsSuccessStatusCode) return false;
+            return await result.Content.ReadFromJsonAsync<bool>();
         }
     }
 }

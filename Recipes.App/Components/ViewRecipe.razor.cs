@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Recipes.App.Services;
 using Recipes.Shared.Domain;
 
 namespace Recipes.App.Components;
 
-public partial class EditRecipe
+public partial class ViewRecipe
 {
     [Inject] private IRecipeDataService RecipeDataService { get; set; } = null!;
 
@@ -26,24 +25,24 @@ public partial class EditRecipe
 
     private void AddIngredient()
     {
-        _recipe.Ingredients?.Add(_newIngredient);
+        _recipe.Ingredients.Add(_newIngredient);
         _newIngredient = new Ingredient();
     }
 
     private void RemoveIngredient(Ingredient ingredient)
     {
-        _recipe.Ingredients?.Remove(ingredient);
+        _recipe.Ingredients.Remove(ingredient);
     }
 
     private void AddInstruction()
     {
-        _recipe.Instructions?.Add(_newInstruction);
+        _recipe.Instructions.Add(_newInstruction);
         _newInstruction = new Instruction();
     }
 
     private void RemoveInstruction(Instruction instruction)
     {
-        _recipe.Instructions?.Remove(instruction);
+        _recipe.Instructions.Remove(instruction);
     }
 
     private async Task SaveRecipe()

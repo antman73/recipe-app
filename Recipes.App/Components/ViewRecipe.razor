@@ -16,7 +16,7 @@
                             <td colspan="5"><input class="form-control" @bind="_recipe.Title"></td>
                         </tr>
                         <tr>
-                            <th class="required">Description:</th>
+                            <th class="required align-top">Description:</th>
                             <td colspan="5"><textarea class="form-control" rows="4" @bind="_recipe.Description"></textarea></td>
                         </tr>
                         <tr>
@@ -30,25 +30,21 @@
                         <tr>
                             <td colspan="6">
                                 <div class="fw-bold mt-2">Ingredients</div>
-                                @if (_recipe.Ingredients != null)
+                                @if (_recipe.Ingredients.Count == 0)
                                 {
-                                    @if (_recipe.Ingredients.Count == 0)
+                                    <div>No Ingredients found!</div>
+                                }
+                                else
+                                {
+                                    @foreach (var i in _recipe.Ingredients)
                                     {
-                                        <div>No Ingredients found!</div>
+                                        var ingredient = i;
+                                        <div class="d-flex gap-1">
+                                            <input class="form-control" @bind="@ingredient.IngredientText" />
+                                            <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
+                                            @onclick=@(() => RemoveIngredient(ingredient))></iconify-icon>
+                                        </div>
                                     }
-                                    else
-                                    {
-                                        @foreach (var i in _recipe.Ingredients)
-                                        {
-                                            var ingredient = i;
-                                            <div class="d-flex gap-1">
-                                                <input class="form-control" @bind="@ingredient.IngredientText" />
-                                                <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
-                                                @onclick=@(() => RemoveIngredient(ingredient))></iconify-icon>
-                                            </div>
-                                        }
-                                    }
-
                                 }
                                 <div class="d-flex gap-1">
                                     <input class="form-control" @bind="@_newIngredient.IngredientText"/>
@@ -59,26 +55,22 @@
                         </tr>
                         <tr>
                             <td colspan="6">
-                                <div>Instructions</div>
-                                @if (_recipe.Instructions != null)
+                                <div class="fw-bold mt-2">Instructions</div>
+                                @if (_recipe.Instructions.Count == 0)
                                 {
-                                    @if (_recipe.Instructions.Count == 0)
+                                    <div>No Instructions found!</div>
+                                }
+                                else
+                                {
+                                    @foreach (var i in _recipe.Instructions)
                                     {
-                                        <div>No Instructions found!</div>
+                                        var instruction = i;
+                                        <div class="d-flex gap-1">
+                                            <input class="form-control" @bind="@instruction.InstructionText" />
+                                            <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
+                                            @onclick=@(() => RemoveInstruction(instruction))></iconify-icon>
+                                        </div>
                                     }
-                                    else
-                                    {
-                                        @foreach (var i in _recipe.Instructions)
-                                        {
-                                            var instruction = i;
-                                            <div class="d-flex gap-1">
-                                                <input class="form-control" @bind="@instruction.InstructionText" />
-                                                <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
-                                                @onclick=@(() => RemoveInstruction(instruction))></iconify-icon>
-                                            </div>
-                                        }
-                                    }
-
                                 }
                                 <div class="d-flex gap-1">
                                     <input class="form-control" @bind="@_newInstruction.InstructionText" />
