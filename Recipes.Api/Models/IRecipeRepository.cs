@@ -38,8 +38,8 @@ namespace Recipes.Api.Models
             try
             {
                 var recipe = await _appDbContext.Recipes.FindAsync(id) ?? throw new DataException($"Recipe ID {id} not found!");
-                recipe.Ingredients = await _appDbContext.Ingredients.Where(x => x.Recipe == recipe).ToListAsync();
-                recipe.Instructions = await _appDbContext.Instructions.Where(x => x.Recipe == recipe).ToListAsync();
+                recipe.Ingredients = await _appDbContext.Ingredients.Where(x => x.RecipeId == recipe.Id).ToListAsync();
+                recipe.Instructions = await _appDbContext.Instructions.Where(x => x.RecipeId == recipe.Id).ToListAsync();
                 return recipe;
             }
             catch (Exception e)
@@ -67,8 +67,8 @@ namespace Recipes.Api.Models
                     // Update
                     _appDbContext.Entry(existing).CurrentValues.SetValues(recipe);
                     _appDbContext.Update(existing);
-                    _appDbContext.Ingredients.RemoveRange(_appDbContext.Ingredients.Where(x => x.Recipe == recipe));
-                    _appDbContext.Instructions.RemoveRange(_appDbContext.Instructions.Where(x => x.Recipe == recipe));
+                    _appDbContext.Ingredients.RemoveRange(_appDbContext.Ingredients.Where(x => x.RecipeId == recipe.Id));
+                    _appDbContext.Instructions.RemoveRange(_appDbContext.Instructions.Where(x => x.RecipeId == recipe.Id));
                     await _appDbContext.Ingredients.AddRangeAsync(recipe.Ingredients);
                     await _appDbContext.Instructions.AddRangeAsync(recipe.Instructions);
                     await _appDbContext.SaveChangesAsync();

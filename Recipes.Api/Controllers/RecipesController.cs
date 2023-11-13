@@ -30,7 +30,7 @@ public class RecipesController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateNewRecipe([FromBody] Recipe recipe)
+    public async Task<IActionResult> SaveRecipe([FromBody] Recipe recipe)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -39,4 +39,5 @@ public class RecipesController : Controller
 
         return Ok(createdRecipe);
     }
+
 }

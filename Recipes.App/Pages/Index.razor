@@ -14,7 +14,7 @@ else
         <div class="d-flex flex-wrap gap-4">
             @foreach (var recipe in _recipeList!)
             {
-                <RecipeCard Recipe="recipe" OnRecipeClick="EditRecipe" />
+                <RecipeCard Recipe="recipe" OnEditClick="EditRecipe" OnRecipeClick="ViewRecipe" />
             }
         </div>
     </div>

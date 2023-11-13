@@ -13,6 +13,7 @@ public partial class Index
     [Inject] private IRecipeDataService RecipeDataService { get; set; } = null!;
     [Inject] private IModalService ModalService { get; set; } = null!;
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
     private List<Recipe>? _recipeList;
 
@@ -26,10 +27,10 @@ public partial class Index
         _recipeList = (await RecipeDataService.GetAllRecipes()).ToList();
     }
 
-    private async Task EditRecipe(Recipe recipe)
+    private async Task EditRecipe(int id)
     {
-        var editViewRecipe =  ModalService.Show<EditViewRecipe>("View/Edit Recipe", 
-            new ModalParameters().Add("RecipeId", recipe.Id), 
+        var editViewRecipe =  ModalService.Show<EditRecipe>("View/Edit Recipe", 
+            new ModalParameters().Add("RecipeId", id), 
             new ModalOptions
         {
             Size = ModalSize.Large
@@ -41,5 +42,10 @@ public partial class Index
         }
 
         await LoadData();
+    }
+
+    private async Task ViewRecipe(int id)
+    {
+        await JsRuntime.InvokeVoidAsync("open", $"./ViewRecipe/{id}", "_blank"); 
     }
 }

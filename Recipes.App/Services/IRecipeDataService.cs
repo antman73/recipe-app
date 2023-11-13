@@ -2,6 +2,7 @@
 using Recipes.Shared.Domain;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Unicode;
 
 namespace Recipes.App.Services
 {
@@ -38,8 +39,9 @@ namespace Recipes.App.Services
 
         public async Task<bool> SaveRecipe(Recipe recipe)
         {
+            var json = JsonConvert.SerializeObject(recipe);
             var result = await _httpClient.PostAsync("api/recipes",
-                new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));
+                new StringContent(json, Encoding.UTF8, "application/json"));
             if (!result.IsSuccessStatusCode) return false;
             return await result.Content.ReadFromJsonAsync<bool>();
         }

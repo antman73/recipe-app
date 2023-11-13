@@ -6,7 +6,7 @@ public class Instruction
 {
     [Key] public int Id { get; set; }
 
-    public Recipe Recipe { get; set; } = null!;
+    public int RecipeId { get; set; }
 
     [MaxLength(1000)] public string InstructionText { get; set; } = null!;
 
