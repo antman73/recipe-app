@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "ignored": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    },
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/LexisNexisRecipes/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsRecipeDatabase_9529777897",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/lexisnexisrecipesapidbserver/databases/lexisnexisrecipes_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:RecipeDatabase",
+      "dynamicId": null
+    }
+  }
+}
