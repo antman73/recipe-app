@@ -1,4 +1,5 @@
-﻿using Blazored.Modal;
+﻿using System.Security.Principal;
+using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -19,7 +20,6 @@ public partial class EditRecipe
     private Recipe? _recipe;
     private Ingredient _newIngredient = new();
     private Instruction _newInstruction = new();
-    private IBrowserFile imageFile;
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,9 +33,10 @@ public partial class EditRecipe
         _newIngredient = new Ingredient();
     }
 
-    private void RemoveIngredient(Ingredient ingredient)
+    private async Task RemoveIngredient(Ingredient ingredient)
     {
-        _recipe!.Ingredients.Remove(ingredient);
+        if(await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"))
+            _recipe!.Ingredients.Remove(ingredient);
     }
 
     private void AddInstruction()
@@ -45,9 +46,10 @@ public partial class EditRecipe
         _newInstruction = new Instruction();
     }
 
-    private void RemoveInstruction(Instruction instruction)
+    private async Task RemoveInstruction(Instruction instruction)
     {
-        _recipe!.Instructions.Remove(instruction);
+        if(await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"))
+            _recipe!.Instructions.Remove(instruction);
     }
 
     private async Task SaveRecipe()

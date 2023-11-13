@@ -6,18 +6,18 @@
         <div class="row">
             <div class="col-2 required fw-bold">Title:</div>
             <div class="col-10">
-                <input class="form-control" @bind="_recipe.Title">
+                <InputText class="form-control" @bind-Value="_recipe.Title" />
             </div>
         </div>
         <div class="row">
             <div class="col-2 required fw-bold">Description:</div>
             <div class="col-10">
-                <textarea class="form-control" rows="4" @bind="_recipe.Description"></textarea>
+                <InputTextArea class="form-control" rows="4" @bind-Value="_recipe.Description"/>
             </div>
         </div>
         <div class="row">
             <div class="col-2 fw-bold">Image:</div>
-            <div class="col-10">
+            <div class="col-10 p-1">
                 <InputFile OnChange="@LoadFile"></InputFile>
             </div>
         </div>
@@ -25,11 +25,11 @@
             <div class="col-2 required fw-bold">Prep Time:</div>
             <div class="col-10">
                 <div class="d-flex gap-2">
-                    <div><input class="form-control w-50" @bind="_recipe.PrepTimeMinutes"></div>
+                    <div><InputNumber class="form-control w-50" @bind-Value="_recipe.PrepTimeMinutes" /></div>
                     <div class=" equired fw-bold">Cook Time:</div>
-                    <div><input class="form-control w-50" @bind="_recipe.CookTimeMinutes"></div>
+                    <div><InputNumber class="form-control w-50" @bind-Value="_recipe.CookTimeMinutes" /></div>
                     <div class=" equired fw-bold">Servings:</div>
-                    <div><input class="form-control w-50" @bind="_recipe.Servings"></div>
+                    <div><InputNumber class="form-control w-50" @bind-Value="_recipe.Servings" /></div>
                 </div>
             </div>
         </div>
@@ -46,14 +46,14 @@
                     {
                         var ingredient = i;
                         <div class="d-flex gap-1">
-                            <input class="form-control" @bind="@ingredient.IngredientText" />
+                            <InputText class="form-control" @bind-Value="@ingredient.IngredientText" />
                             <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
                                           @onclick=@(() => RemoveIngredient(ingredient))></iconify-icon>
                         </div>
                     }
                 }
                 <div class="d-flex gap-1">
-                    <input class="form-control" @bind="@_newIngredient.IngredientText" />
+                    <InputText class="form-control" @bind-Value="@_newIngredient.IngredientText" />
                     <iconify-icon icon="ph:plus-circle-duotone" style="color: green;" Width="32" Height="32"
                                   @onclick="AddIngredient" role="button"></iconify-icon>
                 </div>
@@ -70,14 +70,14 @@
                     {
                         var instruction = i;
                         <div class="d-flex gap-1">
-                            <input class="form-control" @bind="@instruction.InstructionText" />
+                        <InputTextArea class="form-control" @bind-Value="@instruction.InstructionText" rows="4" />
                             <iconify-icon icon="typcn:delete" style="color: red;" width="20" height="20" role="button"
                                           @onclick=@(() => RemoveInstruction(instruction))></iconify-icon>
                         </div>
                     }
                 }
                 <div class="d-flex gap-1">
-                    <input class="form-control" @bind="@_newInstruction.InstructionText" />
+                    <InputTextArea class="form-control" @bind-Value="@_newInstruction.InstructionText" />
                     <iconify-icon icon="ph:plus-circle-duotone" style="color: green;" Width="32" Height="32"
                                   @onclick="AddInstruction" role="button"></iconify-icon>
                 </div>

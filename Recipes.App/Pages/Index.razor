@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+<button class="btn btn-success" @onclick="@(() => EditRecipe(0))">Add New Recipe</button>
+
 @if (_recipeList == null)
 {
     <div>Loading recipes...</div>
