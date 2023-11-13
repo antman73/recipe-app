@@ -44,7 +44,7 @@ namespace Recipes.Api.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Shared.Domain.Instruction", b =>
@@ -70,7 +70,7 @@ namespace Recipes.Api.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Instructions");
+                    b.ToTable("Instructions", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Shared.Domain.Recipe", b =>
@@ -105,7 +105,7 @@ namespace Recipes.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
 
                     b.HasData(
                         new
