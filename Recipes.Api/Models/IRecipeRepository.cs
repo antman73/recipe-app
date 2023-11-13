@@ -1,11 +1,15 @@
-﻿using Recipes.Shared.Domain;
+﻿using Recipes.Shared.Entities;
 
 namespace Recipes.Api.Models
 {
     public interface IRecipeRepository
     {
-        Task<IEnumerable<Recipe>> GetAllRecipes();
-        Task<Recipe> GetRecipe(int id);
-        Task<bool> SaveRecipe(Recipe recipe);
+        Task<IEnumerable<DtoRecipe>> GetAllRecipes(string filter);
+
+        Task<DtoRecipe?> GetRecipe(int id);
+
+        Task<bool> CreateRecipe(DtoRecipe recipe);
+
+        Task<bool> UpdateRecipe(DtoRecipe recipe);
     }
 }

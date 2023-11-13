@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Recipes.Shared.Domain;
+using Microsoft.JSInterop;
+using Recipes.Shared.Entities;
 
 namespace Recipes.App.Components;
 
 public partial class RecipeCard
 {
-    [Parameter] public Recipe? Recipe { get; set; }
-    [Parameter] public EventCallback<int> OnRecipeClick { get; set; }
-    [Parameter] public EventCallback<int> OnEditClick { get; set; }
+    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+
+    [Parameter] public DtoRecipe? Recipe { get; set; }
 
     private string? _imageUrl;
 
@@ -23,5 +25,10 @@ public partial class RecipeCard
     {
         if (Recipe?.Image != null)
             _imageUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(Recipe.Image)}";
+    }
+
+    private void ViewRecipe(int recipeId)
+    {
+        NavigationManager.NavigateTo($"./ViewRecipe/{recipeId}", true);
     }
 }

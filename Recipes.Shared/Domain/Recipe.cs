@@ -10,8 +10,6 @@ public class Recipe
 
     [Required][MaxLength(2000)] public string Description { get; set; } = null!;
 
-    public byte[]? Image { get; set; }
-
     [Required]public int PrepTimeMinutes { get; set; }
 
     [Required]public int CookTimeMinutes { get; set; }

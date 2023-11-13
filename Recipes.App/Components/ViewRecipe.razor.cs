@@ -1,5 +1,5 @@
-﻿using Blazored.Modal;
-using Blazored.Modal.Services;
+﻿using Blazored.Modal.Services;
+using Blazored.Modal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -9,21 +9,58 @@ using Recipes.Shared.Entities;
 
 namespace Recipes.App.Components;
 
-public partial class EditRecipe
+public partial class ViewRecipe
 {
     [Inject] private IRecipeDataService RecipeDataService { get; set; } = null!;
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
-    [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
-    [Parameter] public int RecipeId { get; set; }
+    [Parameter] public int Id { get; set; }
 
     private DtoRecipe? _recipe;
     private Ingredient _newIngredient = new();
     private Instruction _newInstruction = new();
+    private string? _imageUrl;
+    private bool _editMode;
 
     protected override async Task OnInitializedAsync()
     {
-        _recipe = await RecipeDataService.GetRecipe(RecipeId);
+        await LoadRecipe();
+    }
+
+    private async Task LoadRecipe()
+    {
+        _editMode = false;
+        _recipe = await RecipeDataService.GetRecipe(Id);
+        await DisplayImage();
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs arg)
+    {
+        if (arg is { FileCount: 1, File.Size: > 0 })
+        {
+            var imgFile = arg.File;
+            var buffers = new byte[imgFile.Size];
+            var byteCount = await imgFile.OpenReadStream().ReadAsync(buffers);
+            if (byteCount != imgFile.Size)
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "File size incorrect!");
+            }
+            else
+            {
+                _recipe!.Image = buffers;
+                await DisplayImage();
+            }
+        }
+    }
+
+    private async Task DisplayImage()
+    {
+        _imageUrl = _recipe?.Image != null
+            ? _imageUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(_recipe.Image)}"
+            : "";
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private void AddIngredient()
@@ -52,27 +89,14 @@ public partial class EditRecipe
             _recipe!.Instructions.Remove(instruction);
     }
 
-    private async Task SaveRecipe()
+    private async Task UpdateRecipe()
     {
-        var isSaved = await RecipeDataService.CreateRecipe(_recipe!);
+        var isSaved = await RecipeDataService.UpdateRecipe(_recipe!);
         if (isSaved)
         {
-            //Close dialog
-            await BlazoredModal.CloseAsync(ModalResult.Ok(isSaved));
+            NavigationManager.NavigateTo("./", true, true);
         }
         else
             await JsRuntime.InvokeVoidAsync("alert", "Error during save!");
-    }
-
-    private async Task LoadFile(InputFileChangeEventArgs arg)
-    {
-        if (arg is { FileCount: 1, File.Size: > 0 })
-        {
-            var imgFile = arg.File;
-            var buffers = new byte[imgFile.Size];
-            var byteCount = await imgFile.OpenReadStream().ReadAsync(buffers);
-            _recipe!.Image = buffers;
-            var imgUrl = $"data:{imgFile.ContentType};base64,{Convert.ToBase64String(buffers)}";
-        }
     }
 }

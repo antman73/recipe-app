@@ -1,49 +1,17 @@
-﻿using Newtonsoft.Json;
-using Recipes.Shared.Domain;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Unicode;
+﻿using Recipes.Shared.Entities;
 
 namespace Recipes.App.Services
 {
     public interface IRecipeDataService
     {
-        public Task<IEnumerable<Recipe>> GetAllRecipes();
+        public Task<IEnumerable<DtoRecipe>> GetAllRecipes();
 
-        public Task<Recipe> GetRecipe(int id);
-        public Task<bool> SaveRecipe(Recipe recipe);
-    }
+        public Task<IEnumerable<DtoRecipe>> GetRecipes(string filter);
 
-    public class RecipeDataService : IRecipeDataService
-    {
-        private readonly HttpClient _httpClient;
+        public Task<DtoRecipe?> GetRecipe(int id);
 
-        public RecipeDataService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
+        public Task<bool> CreateRecipe(DtoRecipe recipe);
 
-        public async Task<IEnumerable<Recipe>> GetAllRecipes()
-        {
-            var result = await _httpClient.GetAsync("api/recipes");
-            if(!result.IsSuccessStatusCode) return new List<Recipe>();
-            return await result.Content.ReadFromJsonAsync<IEnumerable<Recipe>>() ?? new List<Recipe>();
-        }
-
-        public async Task<Recipe> GetRecipe(int id)
-        {
-            var result = await _httpClient.GetAsync($"api/recipes/{id}");
-            if (!result.IsSuccessStatusCode) return new Recipe();
-            return await result.Content.ReadFromJsonAsync<Recipe>() ?? new Recipe();
-        }
-
-        public async Task<bool> SaveRecipe(Recipe recipe)
-        {
-            var json = JsonConvert.SerializeObject(recipe);
-            var result = await _httpClient.PostAsync("api/recipes",
-                new StringContent(json, Encoding.UTF8, "application/json"));
-            if (!result.IsSuccessStatusCode) return false;
-            return await result.Content.ReadFromJsonAsync<bool>();
-        }
+        public Task<bool> UpdateRecipe(DtoRecipe recipe);
     }
 }

@@ -2,11 +2,8 @@
 
 @if (Recipe != null)
 {
-    <div class="recipe-card p-2">
-        <div class="d-flex justify-content-between">
-            <div class="h4">@Recipe.Title</div>
-            <div><button class="btn btn-sm" @onclick="@(() => OnEditClick.InvokeAsync(Recipe.Id))">Edit</button></div>
-        </div>
+    <div class="recipe-card p-2" role="button" @onclick="@(() => ViewRecipe(Recipe.Id))">
+        <div class="h4 text-center">@Recipe.Title</div>
         <div class="d-flex gap-2">
             <div>
                 @if (Recipe.Image == null)
@@ -26,21 +23,6 @@
                 <div class="fw-bold">Servings:</div>
                 <div>@Recipe.Servings</div>
             </div>
-            <div class="ms-4">
-                <div class="fw-bold">Ingredients:</div>
-                @foreach (var i in Recipe.Ingredients)
-                {
-                    <div class="text-nowrap mb-1">@i.IngredientText</div>
-                }
-            </div>
-            <div class="ms-4">
-                <div class="fw-bold">Instructions:</div>
-                @foreach (var i in Recipe.Instructions)
-                {
-                    <div class="mb-1">@i.InstructionText</div>
-                }
-            </div>
         </div>
-        <div class="p-2 fst-italic">@Recipe.Description</div>
     </div>
 }

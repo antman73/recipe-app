@@ -1,9 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<div class="header d-flex p-2 align-items-center justify-content-between">
-    <a href="https://risk.lexisnexis.com/" class="navbar-brand"> </a>
-    <span class="brand-logo">Recipe Master</span>
-    <div></div>
+<div class="header d-flex p-2 align-items-center gap-2" @onclick="@(() => NavigationManager.NavigateTo("./"))" role="button">
+    <div class="navbar-brand"></div>
+    <div class="brand-logo">Recipe Master</div>
 </div>
 <div class="page">
     @Body

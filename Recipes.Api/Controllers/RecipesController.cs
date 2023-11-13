@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Recipes.Api.Models;
-using Recipes.Shared.Domain;
+using Recipes.Shared.Entities;
 
 namespace Recipes.Api.Controllers;
 
@@ -16,28 +16,45 @@ public class RecipesController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllRecipesAsync()
+    public async Task<IActionResult> GetAllAsync()
     {
-        return Ok(await _recipeRepository.GetAllRecipes());
+        return Ok(await _recipeRepository.GetAllRecipes(""));
+    }
+
+    [HttpGet]
+    [Route("{filter}")]
+    public async Task<IActionResult> GetAllAsync(string filter)
+    {
+        return Ok(await _recipeRepository.GetAllRecipes(filter));
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<IActionResult> GetRecipeAsync(int id)
+    public async Task<IActionResult> GetAsync(int id)
     {
         var recipe = await _recipeRepository.GetRecipe(id);
         return Ok(recipe);
     }
 
     [HttpPost]
-    public async Task<IActionResult> SaveRecipe([FromBody] Recipe recipe)
+    public async Task<IActionResult> PostRecipe([FromBody] DtoRecipe recipe)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var createdRecipe = await _recipeRepository.SaveRecipe(recipe);
+        var createdRecipe = await _recipeRepository.CreateRecipe(recipe);
 
         return Ok(createdRecipe);
     }
 
+    [HttpPut]
+    public async Task<IActionResult> PutRecipe([FromBody] DtoRecipe recipe)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var createdRecipe = await _recipeRepository.UpdateRecipe(recipe);
+
+        return Ok(createdRecipe);
+    }
 }

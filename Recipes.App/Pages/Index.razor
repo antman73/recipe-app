@@ -1,7 +1,5 @@
 ﻿@page "/"
 
-<button class="btn btn-success" @onclick="@(() => EditRecipe(0))">Add New Recipe</button>
-
 @if (_recipeList == null)
 {
     <Spinner/>
@@ -12,11 +10,18 @@ else if (_recipeList?.Count == 0)
 }
 else
 {
+    <div class="d-flex justify-content-between align-items-center m-1">
+        <div class="d-flex gap-1 align-items-center">
+            <div class="fw-bold">Filter:</div>
+            <input class="form-control" value="@_recipeFilter" @onchange="FilterRecipes" />
+        </div>
+        <button class="btn btn-success" @onclick="@(() => EditRecipe(0))">Add New Recipe</button>
+    </div>
     <div class="w-100 d-flex justify-content-center">
-        <div class="d-flex flex-wrap gap-4">
+        <div class="d-flex flex-wrap gap-3">
             @foreach (var recipe in _recipeList!)
             {
-                <RecipeCard Recipe="recipe" OnEditClick="EditRecipe" OnRecipeClick="ViewRecipe" />
+                <RecipeCard Recipe="recipe" />
             }
         </div>
     </div>
