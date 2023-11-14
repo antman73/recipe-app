@@ -31,10 +31,9 @@ public partial class Index
         await InvokeAsync(StateHasChanged);
     }
 
-    private async Task EditRecipe(int id)
+    private async Task AddNewRecipe()
     {
         var editViewRecipe = ModalService.Show<EditRecipe>("View/Edit Recipe",
-            new ModalParameters().Add("RecipeId", id),
             new ModalOptions
             {
                 Size = ModalSize.Large

@@ -52,4 +52,11 @@ public class RecipeDataService : IRecipeDataService
         if (!result.IsSuccessStatusCode) return false;
         return await result.Content.ReadFromJsonAsync<bool>();
     }
+
+    public async Task<bool> DeleteRecipe(int id)
+    {
+        var result = await _httpClient.DeleteAsync($"api/recipes/{id}");
+        if (!result.IsSuccessStatusCode) return false;
+        return await result.Content.ReadFromJsonAsync<bool>();
+    }
 }

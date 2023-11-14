@@ -1,13 +1,11 @@
-﻿using Blazored.Modal.Services;
-using Blazored.Modal;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Recipes.App.Services;
 using Recipes.Shared.Domain;
 using Recipes.Shared.Entities;
 
-namespace Recipes.App.Components;
+namespace Recipes.App.Pages;
 
 public partial class ViewRecipe
 {
@@ -98,5 +96,17 @@ public partial class ViewRecipe
         }
         else
             await JsRuntime.InvokeVoidAsync("alert", "Error during save!");
+    }
+
+    private async Task DeleteRecipe()
+    {
+        if (await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"))
+        {
+            var isDeleted = await RecipeDataService.DeleteRecipe(_recipe!.Id);
+            if(isDeleted)
+                NavigationManager.NavigateTo("./", true, true);
+            else
+                await JsRuntime.InvokeVoidAsync("alert", "Error during delete!");
+        }
     }
 }

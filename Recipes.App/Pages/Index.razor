@@ -15,7 +15,7 @@ else
             <div class="fw-bold">Filter:</div>
             <input class="form-control" value="@_recipeFilter" @onchange="FilterRecipes" />
         </div>
-        <button class="btn btn-success" @onclick="@(() => EditRecipe(0))">Add New Recipe</button>
+        <button class="btn btn-success" @onclick="@AddNewRecipe">Add New Recipe</button>
     </div>
     <div class="w-100 d-flex justify-content-center">
         <div class="d-flex flex-wrap gap-3">

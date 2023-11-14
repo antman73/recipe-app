@@ -15,7 +15,6 @@ public partial class EditRecipe
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
 
     [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
-    [Parameter] public int RecipeId { get; set; }
 
     private DtoRecipe? _recipe;
     private Ingredient _newIngredient = new();
@@ -23,7 +22,7 @@ public partial class EditRecipe
 
     protected override async Task OnInitializedAsync()
     {
-        _recipe = await RecipeDataService.GetRecipe(RecipeId);
+        _recipe = new DtoRecipe { Ingredients = new List<Ingredient>(), Instructions = new List<Instruction>() };
     }
 
     private void AddIngredient()
@@ -48,7 +47,7 @@ public partial class EditRecipe
 
     private async Task RemoveInstruction(Instruction instruction)
     {
-        if (await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"))
+        if (await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?")) 
             _recipe!.Instructions.Remove(instruction);
     }
 
@@ -71,8 +70,14 @@ public partial class EditRecipe
             var imgFile = arg.File;
             var buffers = new byte[imgFile.Size];
             var byteCount = await imgFile.OpenReadStream().ReadAsync(buffers);
-            _recipe!.Image = buffers;
-            var imgUrl = $"data:{imgFile.ContentType};base64,{Convert.ToBase64String(buffers)}";
+            if (byteCount != imgFile.Size)
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "File size incorrect!");
+            }
+            else
+            {
+                _recipe!.Image = buffers;
+            }
         }
     }
 }

@@ -4,12 +4,14 @@ namespace Recipes.Api.Models
 {
     public interface IRecipeRepository
     {
-        Task<IEnumerable<DtoRecipe>> GetAllRecipes(string filter);
+        public Task<IEnumerable<DtoRecipe>> GetAllRecipes(string filter);
 
-        Task<DtoRecipe?> GetRecipe(int id);
+        public Task<DtoRecipe?> GetRecipe(int id);
 
-        Task<bool> CreateRecipe(DtoRecipe recipe);
+        public Task<bool> CreateRecipe(DtoRecipe recipe);
 
-        Task<bool> UpdateRecipe(DtoRecipe recipe);
+        public Task<bool> UpdateRecipe(DtoRecipe recipe);
+
+        public Task<bool> DeleteRecipe(int id);
     }
 }

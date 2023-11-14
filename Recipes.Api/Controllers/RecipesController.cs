@@ -57,4 +57,11 @@ public class RecipesController : Controller
 
         return Ok(createdRecipe);
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteRecipe(int id)
+    {
+        var isDeleted = await _recipeRepository.DeleteRecipe(id);
+        return Ok(isDeleted);
+    }
 }

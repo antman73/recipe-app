@@ -13,5 +13,7 @@ namespace Recipes.App.Services
         public Task<bool> CreateRecipe(DtoRecipe recipe);
 
         public Task<bool> UpdateRecipe(DtoRecipe recipe);
+
+        public Task<bool> DeleteRecipe(int id);
     }
 }

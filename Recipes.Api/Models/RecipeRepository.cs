@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Recipes.Shared.Domain;
 using Recipes.Shared.Entities;
@@ -150,6 +151,24 @@ public class RecipeRepository : IRecipeRepository
             await _appDbContext.Instructions.AddRangeAsync(recipe.Instructions);
             await _appDbContext.SaveChangesAsync();
 
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<bool> DeleteRecipe(int id)
+    {
+        try
+        {
+            _appDbContext.RemoveRange(_appDbContext.RecipeImages.Where(x => x.RecipeId == id));
+            _appDbContext.RemoveRange(_appDbContext.Ingredients.Where(x => x.RecipeId == id));
+            _appDbContext.RemoveRange(_appDbContext.Instructions.Where(x => x.RecipeId == id));
+            _appDbContext.RemoveRange(_appDbContext.Recipes.Where(x => x.Id == id));
+            await _appDbContext.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
