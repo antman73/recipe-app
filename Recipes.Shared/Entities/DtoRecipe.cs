@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Recipes.Shared.Domain;
+using Recipes.Shared.Functions;
 
 namespace Recipes.Shared.Entities;
 
@@ -21,5 +23,6 @@ public class DtoRecipe
 
     [Required] public List<Instruction> Instructions { get; set; } = new();
 
+    [JsonConverter(typeof(JsonToByteArrayConverter))]
     public byte[]? Image { get; set; }
 }
