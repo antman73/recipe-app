@@ -11,8 +11,8 @@ using Recipes.Api.Models;
 namespace Recipes.Api.Migrations
 {
     [DbContext(typeof(RecipeDbContext))]
-    [Migration("20231111161707_initialMigration")]
-    partial class InitialMigration
+    [Migration("20231114033711_IdentityInsertOnAdd")]
+    partial class IdentityInsertOnAdd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,9 +92,6 @@ namespace Recipes.Api.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<int>("PrepTimeMinutes")
                         .HasColumnType("int");
 
@@ -111,26 +108,41 @@ namespace Recipes.Api.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("Recipes.Shared.Domain.RecipeImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeImages");
+                });
+
             modelBuilder.Entity("Recipes.Shared.Domain.Ingredient", b =>
                 {
-                    b.HasOne("Recipes.Shared.Domain.Recipe", "Recipe")
+                    b.HasOne("Recipes.Shared.Domain.Recipe", null)
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Domain.Instruction", b =>
                 {
-                    b.HasOne("Recipes.Shared.Domain.Recipe", "Recipe")
+                    b.HasOne("Recipes.Shared.Domain.Recipe", null)
                         .WithMany("Instructions")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Domain.Recipe", b =>

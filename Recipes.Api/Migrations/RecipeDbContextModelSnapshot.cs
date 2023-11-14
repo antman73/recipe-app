@@ -103,44 +103,6 @@ namespace Recipes.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Recipes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CookTimeMinutes = 10,
-                            Description = "Recipe 1 desc",
-                            PrepTimeMinutes = 15,
-                            Servings = 4,
-                            Title = "Recipe 1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CookTimeMinutes = 20,
-                            Description = "Recipe 2 desc",
-                            PrepTimeMinutes = 30,
-                            Servings = 6,
-                            Title = "Recipe 2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CookTimeMinutes = 30,
-                            Description = "Recipe 3 desc",
-                            PrepTimeMinutes = 45,
-                            Servings = 8,
-                            Title = "Recipe 3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CookTimeMinutes = 40,
-                            Description = "Recipe 4 desc",
-                            PrepTimeMinutes = 60,
-                            Servings = 10,
-                            Title = "Recipe 4"
-                        });
                 });
 
             modelBuilder.Entity("Recipes.Shared.Domain.RecipeImage", b =>

@@ -93,7 +93,7 @@ public class RecipeRepository : IRecipeRepository
             await _appDbContext.SaveChangesAsync();
 
             // Image
-            await _appDbContext.AddAsync(new RecipeImage { RecipeId = recipe.Id, Image = recipe.Image });
+            await _appDbContext.AddAsync(new RecipeImage { RecipeId = newRecipe.Id, Image = recipe.Image });
             await _appDbContext.SaveChangesAsync();
 
             // Ingredients

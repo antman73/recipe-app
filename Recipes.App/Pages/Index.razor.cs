@@ -47,11 +47,6 @@ public partial class Index
         await LoadData();
     }
 
-    private async Task ViewRecipe(int id)
-    {
-        await JsRuntime.InvokeVoidAsync("open", $"./ViewRecipe/{id}", "_blank");
-    }
-
     private async Task FilterRecipes(ChangeEventArgs arg)
     {
         if (arg.Value?.ToString() != _recipeFilter)

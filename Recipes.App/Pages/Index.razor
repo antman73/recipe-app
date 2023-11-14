@@ -4,10 +4,6 @@
 {
     <Spinner/>
 }
-else if (_recipeList?.Count == 0)
-{
-    <div>No recipes found!</div>
-}
 else
 {
     <div class="d-flex justify-content-between align-items-center m-1">
@@ -17,12 +13,20 @@ else
         </div>
         <button class="btn btn-success" @onclick="@AddNewRecipe">Add New Recipe</button>
     </div>
-    <div class="w-100 d-flex justify-content-center">
-        <div class="d-flex flex-wrap gap-3">
-            @foreach (var recipe in _recipeList!)
-            {
-                <RecipeCard Recipe="recipe" />
-            }
+
+    if (_recipeList?.Count == 0)
+    {
+        <div>No recipes found!</div>
+    }
+    else
+    {
+        <div class="w-100 d-flex justify-content-center">
+            <div class="d-flex flex-wrap gap-3">
+                @foreach (var recipe in _recipeList!)
+                {
+                    <RecipeCard Recipe="recipe"/>
+                }
+            </div>
         </div>
-    </div>
+    }
 }

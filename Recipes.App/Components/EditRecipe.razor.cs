@@ -20,7 +20,7 @@ public partial class EditRecipe
     private Ingredient _newIngredient = new();
     private Instruction _newInstruction = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         _recipe = new DtoRecipe { Ingredients = new List<Ingredient>(), Instructions = new List<Instruction>() };
     }

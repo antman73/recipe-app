@@ -6,7 +6,6 @@ namespace Recipes.App.Components;
 
 public partial class RecipeCard
 {
-    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
     [Parameter] public DtoRecipe? Recipe { get; set; }

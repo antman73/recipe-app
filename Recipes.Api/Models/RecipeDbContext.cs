@@ -24,4 +24,16 @@ public class RecipeDbContext : DbContext
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
         }
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Recipe>().Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<RecipeImage>().Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Ingredient>().Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Instruction>().Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+    }
 }
