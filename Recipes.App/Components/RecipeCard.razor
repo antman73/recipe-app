@@ -8,19 +8,19 @@
             <div>
                 @if (Recipe.Image == null)
                 {
-                    <img class="recipe-image" src="./images/no-image.jpg" alt="" />
+                    <img class="img-fluid" src="./images/no-image.jpg" alt="" style="max-width:400px; height: auto;" />
                 }
                 else
                 {
-                    <img class="recipe-image" src="@_imageUrl" alt="" />
+                    <img class="img-fluid" src="@_imageUrl" alt="" style="max-width:400px; height: auto;" />
                 }
             </div>
             <div>
-                <div class="fw-bold">Prep time (mins):</div>
+                <div class="fw-bold text-nowrap">Prep time (mins):</div>
                 <div>@Recipe.PrepTimeMinutes</div>
-                <div class="fw-bold">Cook time (mins):</div>
+                <div class="fw-bold text-nowrap">Cook time (mins):</div>
                 <div>@Recipe.CookTimeMinutes</div>
-                <div class="fw-bold">Servings:</div>
+                <div class="fw-bold text-nowrap">Servings:</div>
                 <div>@Recipe.Servings</div>
             </div>
         </div>

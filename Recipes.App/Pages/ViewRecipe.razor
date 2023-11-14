@@ -28,11 +28,11 @@
             <div>
                 @if (_recipe.Image == null)
                 {
-                    <img class="recipe-image" src="./images/no-image.jpg" alt=""/>
+                    <img class="img-fluid" src="./images/no-image.jpg" alt="" style="max-width:400px; height: auto;" />
                 }
                 else
                 {
-                    <img class="recipe-image" src="@_imageUrl" alt=""/>
+                    <img class="img-fluid" src="@_imageUrl" alt="" style="max-width: 400px; height: auto;" />
                 }
                 @if (_editMode)
                 {
