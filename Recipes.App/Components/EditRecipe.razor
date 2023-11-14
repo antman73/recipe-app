@@ -89,3 +89,30 @@
         </div>
     </EditForm>
 }
+
+<script>
+    function createRecipe(value) {
+        try {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/api/recipes",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(value),
+                dataType: "text",
+                traditional: true,
+                success: function (response) {
+                    if(response == "true")
+                        window.location.href = "/";
+                    else
+                        alert("Error during save");
+                },
+                error: function() {
+                    alert("Error during save");
+                }
+            });
+        } catch (e) {
+            console.log(e.message);
+        }
+    };
+</script>

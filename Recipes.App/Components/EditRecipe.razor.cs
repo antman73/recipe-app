@@ -1,9 +1,7 @@
 ﻿using Blazored.Modal;
-using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using Recipes.App.Services;
 using Recipes.Shared.Domain;
 using Recipes.Shared.Entities;
 
@@ -11,7 +9,6 @@ namespace Recipes.App.Components;
 
 public partial class EditRecipe
 {
-    [Inject] private IRecipeDataService RecipeDataService { get; set; } = null!;
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
 
     [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
@@ -47,20 +44,13 @@ public partial class EditRecipe
 
     private async Task RemoveInstruction(Instruction instruction)
     {
-        if (await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?")) 
+        if (await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"))
             _recipe!.Instructions.Remove(instruction);
     }
 
     private async Task SaveRecipe()
     {
-        var isSaved = await RecipeDataService.CreateRecipe(_recipe!);
-        if (isSaved)
-        {
-            //Close dialog
-            await BlazoredModal.CloseAsync(ModalResult.Ok(isSaved));
-        }
-        else
-            await JsRuntime.InvokeVoidAsync("alert", "Error during save!");
+        await JsRuntime.InvokeVoidAsync("createRecipe", _recipe);
     }
 
     private async Task LoadFile(InputFileChangeEventArgs arg)
